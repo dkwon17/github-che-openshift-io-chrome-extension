@@ -1,0 +1,13 @@
+{
+    "manifest_version": 2,
+  
+    "version": "1",
+    "name": "Che on OpenShift.io Cloud IDE",
+    "description": "Open GitHub projects on che.openshift.io.",
+  
+    "content_scripts": [ {
+      "js":      [ "script.js" ],
+      "matches": [ "https://github.com/*" ],
+      "run_at":  "document_idle"
+    } ]
+  }
