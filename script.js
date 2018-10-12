@@ -16,8 +16,7 @@ if (actionBar) {
     var link = insertLink();
     if (btnGroup && btnGroup.length > 0 && btnGroup[0].classList.contains('float-right')) {
         actionBar.insertBefore(link, btnGroup[0]);
-    }
-    else {
+    } else {
         actionBar.appendChild(link);
     }
 }
@@ -27,12 +26,25 @@ if (actionBar) {
  * happens while loading this image. Only if the image exists, we insert the
  * icon into the DOM. */
 function insertLink(el) {
-    var project = window.location.pathname;
+    var project = getProjectURL();
 
+    var container = document.createElement('div');
+    container.className = 'float-right';
     var link = window.document.createElement('a');
-    link.href = "https://che.openshift.io/f?url=https://github.com" + project;
+    link.href = "https://che.openshift.io/f?url=" + project;
     link.target = '_blank';
+    link.title = 'Open the project on che.openshift.io';
     link.className = "btn btn-sm btn-primary"
-    link.appendChild(window.document.createTextNode('Open in Che'));
-    return link;
+    link.appendChild(window.document.createTextNode('Che'));
+    container.appendChild(link);
+    return container;
+}
+
+function getProjectURL() {
+    var meta = window.document.querySelector('meta[property="og:url"]');
+    var url = 'https://github.com/eclipse/che';
+    if (meta) {
+        url = meta.getAttribute('content');
+    }
+    return url;
 }
