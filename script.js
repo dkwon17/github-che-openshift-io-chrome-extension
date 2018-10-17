@@ -13,31 +13,34 @@ document.styleSheets[0].insertRule('.travis-ci img{display:block;}', 1);
 var actionBar = window.document.querySelector(".file-navigation");
 if (actionBar) {
     var btnGroup = actionBar.getElementsByClassName("BtnGroup");
-    var link = insertLink();
-    if (btnGroup && btnGroup.length > 0 && btnGroup[0].classList.contains('float-right')) {
-        actionBar.insertBefore(link, btnGroup[0]);
-    } else {
-        actionBar.appendChild(link);
-    }
+    insertLink(link => {
+        if (btnGroup && btnGroup.length > 0 && btnGroup[0].classList.contains('float-right')) {
+            actionBar.insertBefore(link, btnGroup[0]);
+        } else {
+            actionBar.appendChild(link);
+        }
+    })
 }
 
 /* The status icon may not exist, if the project is not registered on
  * travis-ci.org. So we first create the img element and see if an error
  * happens while loading this image. Only if the image exists, we insert the
  * icon into the DOM. */
-function insertLink(el) {
+function insertLink(cb) {
     var project = getProjectURL();
 
     var container = document.createElement('div');
     container.className = 'float-right';
     var link = window.document.createElement('a');
-    link.href = "https://che.openshift.io/f?url=" + project;
-    link.target = '_blank';
-    link.title = 'Open the project on che.openshift.io';
-    link.className = "btn btn-sm btn-primary"
-    link.appendChild(window.document.createTextNode('Che'));
-    container.appendChild(link);
-    return container;
+    getSelectedEnpoint(url => {
+        link.href = url + "/f?url=" + project;
+        link.target = '_blank';
+        link.title = 'Open the project on ' + url;
+        link.className = "btn btn-sm btn-primary"
+        link.appendChild(window.document.createTextNode('Che'));
+        container.appendChild(link);
+        cb(container);
+    })
 }
 
 function getProjectURL() {
