@@ -1,9 +1,9 @@
 {
     "manifest_version": 2,
   
-    "version": "3",
-    "name": "Che on OpenShift.io Cloud IDE",
-    "description": "Open GitHub projects on che.openshift.io.",
+    "version": "4",
+    "name": "Eclipse Che Cloud IDE hosted on OpenShift",
+    "description": "Add a button to Github that opens projects on Red Hat's hosted version of Eclipse Che, running on OpenShift.",
   
     "content_scripts": [ {
       "js":      [ "options.js", "script.js"  ],
